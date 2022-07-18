@@ -10,8 +10,8 @@ const {
     JWT_ACCESS_TOKEN_EXPIRED,
     JWT_REFRESH_TOKEN_EXPIRED,
 }=process.env
-
-// const api = apiAdapter(URL_SERVICE_REFRESH_TOKEN);
+const apiAdapter = require('../../apiAdapter');
+const api = apiAdapter(URL_SERVICE_REFRESH_TOKEN);
 module.exports = async (req, res) => {
     const schema = {
         email: 'email|empty:false',
@@ -49,17 +49,16 @@ module.exports = async (req, res) => {
     }
 
 
+    const token  = jwt.sign({user}, JWT_SECRET,{expiresIn : JWT_ACCESS_TOKEN_EXPIRED});
+    const refreshToken = jwt.sign({user},JWT_SECRET_REFRESH_TOKEN,{expiresIn: JWT_REFRESH_TOKEN_EXPIRED})
 
-    // const data2 = data.data
-    // const token  = jwt.sign({user}, JWT_SECRET,{expiresIn : JWT_ACCESS_TOKEN_EXPIRED});
-    // const refreshToken = jwt.sign({user},JWT_SECRET_REFRESH_TOKEN,{expiresIn: JWT_REFRESH_TOKEN_EXPIRED})
-
-    // await api.post('/refresh_tokens',{refresh_token: refreshToken});
+    await api.post('/refresh_tokens',{refresh_token: refreshToken, user_id : user.id});
 
     return res.json({
         status : 'success',
         data:{
-            user
+            token,
+            refresh_token : refreshToken
         }
     })
 }

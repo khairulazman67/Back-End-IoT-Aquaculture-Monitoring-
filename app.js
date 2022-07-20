@@ -1,4 +1,5 @@
 require('dotenv').config();
+require('./mqtt/pub');
 require('./mqtt/sub');
 
 const express = require('express');
@@ -9,6 +10,10 @@ const logger = require('morgan');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const refreshTokensRouter = require('./routes/refreshTokens');
+const limitsRouter = require('./routes/limits');
+
+//middleware check token
+// const verifyToken =  require('./middlewares/verifyToken');
 
 const app = express();
 
@@ -21,5 +26,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/refresh_tokens', refreshTokensRouter);
+app.use('/limits', limitsRouter);
 
 module.exports = app;

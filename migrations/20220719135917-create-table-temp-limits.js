@@ -2,28 +2,23 @@
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-
-    await queryInterface.createTable('users', { 
+    await queryInterface.createTable('temp_limits', {
       id: {
         type : Sequelize.INTEGER,
         autoIncrement : true,
         primaryKey : true,
         allowNull : false,
       },
-      name:{
-        type : Sequelize.STRING,
+      min_limit:{
+        type : Sequelize.DOUBLE,
         allowNull : false
       },
-      avatar:{
-        type : Sequelize.STRING,
-        allowNull : true
-      },
-      email:{
-        type : Sequelize.STRING,
+      min_limit:{
+        type : Sequelize.DOUBLE,
         allowNull : false
       },
-      password:{
-        type : Sequelize.STRING,
+      max_limit:{
+        type : Sequelize.DOUBLE,
         allowNull : false
       },
       created_at:{
@@ -35,14 +30,9 @@ module.exports = {
         allowNull : false
       }
     });
-    await queryInterface.addConstraint('users',{
-      type : 'unique',
-      fields  :['email'],
-      name : 'UNIQUE_USERS_EMAIL'
-    })
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('users');
+    await queryInterface.dropTable('temp_limits');
   }
 };

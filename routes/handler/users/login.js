@@ -11,6 +11,7 @@ const {
     JWT_REFRESH_TOKEN_EXPIRED,
 }=process.env
 const apiAdapter = require('../../apiAdapter');
+
 const api = apiAdapter(URL_SERVICE_REFRESH_TOKEN);
 module.exports = async (req, res) => {
     const schema = {
@@ -47,10 +48,15 @@ module.exports = async (req, res) => {
             message : 'user not found'
         })
     }
+    const data = {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        avatar: user.avatar,
+    }
 
-
-    const token  = jwt.sign({user}, JWT_SECRET,{expiresIn : JWT_ACCESS_TOKEN_EXPIRED});
-    const refreshToken = jwt.sign({user},JWT_SECRET_REFRESH_TOKEN,{expiresIn: JWT_REFRESH_TOKEN_EXPIRED})
+    const token  = jwt.sign({data}, JWT_SECRET,{expiresIn : JWT_ACCESS_TOKEN_EXPIRED});
+    const refreshToken = jwt.sign({data},JWT_SECRET_REFRESH_TOKEN,{expiresIn: JWT_REFRESH_TOKEN_EXPIRED})
 
     await api.post('/refresh_tokens',{refresh_token: refreshToken, user_id : user.id});
 

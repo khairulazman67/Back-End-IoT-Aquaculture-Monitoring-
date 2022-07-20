@@ -58,7 +58,7 @@ client.on('connect', async () => {
         })
     }
     function getData(){
-        axios.get('http://localhost:3000/limits/pH')
+        axios.get('http://localhost:3000/limits/')
         .then(response => {
             var pH_min_limits = response.data.data[0].min_limit
             pub(pH_min_limits.toString())

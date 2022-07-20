@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const FeedingTimes = sequelize.define('feeding_times', {
+    const FeedingTimes = sequelize.define('FeedingTimes', {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
-        max_limit: {
+        time: {
             type: DataTypes.TIME,
             allowNull: false
         },

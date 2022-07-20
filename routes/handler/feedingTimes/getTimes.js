@@ -1,8 +1,8 @@
-const {LimitspH} = require('../../../models');
+const {FeedingTimes} = require('../../../models');
 
 module.exports = async(req, res)=>{
 
-    const pH = await LimitspH.findAll();
+    const pH = await FeedingTimes.findAll();
     if(!pH){
         return res.status(404).json({
             status : 'error',

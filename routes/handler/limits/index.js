@@ -1,5 +1,7 @@
-const pHget = require('./pHget');
+const getLimits = require('./getLimits');
+const update =  require('./update');
 
 module.exports = {
-    pHget
+    getLimits,
+    update
 }

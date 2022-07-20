@@ -1,9 +1,13 @@
 module.exports = (sequelize, DataTypes) => {
-    const LimitspH = sequelize.define('LimitspH', {
+    const Limits = sequelize.define('Limits', {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
+            allowNull: false
+        },
+        sensor_name: {
+            type: DataTypes.STRING,
             allowNull: false
         },
         min_limit: {
@@ -25,8 +29,8 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         }
     }, {
-        tableName: 'pH_limits',
+        tableName: 'limits',
         timestamps: true
     });
-    return LimitspH;
+    return Limits;
 }

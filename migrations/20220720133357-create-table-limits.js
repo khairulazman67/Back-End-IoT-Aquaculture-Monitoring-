@@ -2,15 +2,15 @@
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('temp_limits', {
+    await queryInterface.createTable('limits', {
       id: {
         type : Sequelize.INTEGER,
         autoIncrement : true,
         primaryKey : true,
         allowNull : false,
       },
-      min_limit:{
-        type : Sequelize.DOUBLE,
+      sensor_name:{
+        type : Sequelize.STRING,
         allowNull : false
       },
       min_limit:{
@@ -33,6 +33,6 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('temp_limits');
+    await queryInterface.dropTable('limits');
   }
 };

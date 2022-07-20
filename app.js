@@ -11,6 +11,7 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const refreshTokensRouter = require('./routes/refreshTokens');
 const limitsRouter = require('./routes/limits');
+const feedingTimesRoutes = require('./routes/feedingTimes');
 
 //middleware check token
 // const verifyToken =  require('./middlewares/verifyToken');
@@ -27,5 +28,6 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/refresh_tokens', refreshTokensRouter);
 app.use('/limits', limitsRouter);
+app.use('/feeding_times',feedingTimesRoutes);
 
 module.exports = app;

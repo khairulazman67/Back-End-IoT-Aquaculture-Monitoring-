@@ -4,5 +4,6 @@ var router = express.Router();
 const limitsHandler = require('./handler/limits');
 // const verifyToken =  require('../middlewares/verifyToken');
 
-router.get('/pH', limitsHandler.pHget);
+router.get('/', limitsHandler.getLimits);
+router.put('/:id', limitsHandler.update);
 module.exports = router;

@@ -1,21 +1,13 @@
 module.exports = (sequelize, DataTypes) => {
-    const Limits = sequelize.define('Limits', {
+    const Sensors = sequelize.define('Sensors', {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
             allowNull: false
         },
-        sensor_id: {
-            type: DataTypes.INTEGER,
-            allowNull: false
-        },
-        min_limit: {
-            type: DataTypes.DOUBLE,
-            allowNull: false
-        },
-        max_limit: {
-            type: DataTypes.DOUBLE,
+        name: {
+            type: DataTypes.STRING,
             allowNull: false
         },
         createdAt: {
@@ -29,8 +21,8 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         }
     }, {
-        tableName: 'limits',
+        tableName: 'sensors',
         timestamps: true
     });
-    return Limits;
+    return Sensors;
 }

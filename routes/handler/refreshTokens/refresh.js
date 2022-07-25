@@ -39,7 +39,6 @@ module.exports = async (req, res) => {
             }
 
             const token = jwt.sign({ data: decoded.data }, JWT_SECRET, {expiresIn: JWT_ACCESS_TOKEN_EXPIRED });
-
             return res.json({
                 status: 'success',
                 data: {

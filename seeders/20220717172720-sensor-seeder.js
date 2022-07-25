@@ -2,25 +2,19 @@
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.bulkInsert('limits', [
+    await queryInterface.bulkInsert('sensors', [
       {
-        sensor_id : 1,
-        min_limit:  50,
-        max_limit:  50,
+        name : 'Turbidity',
         created_at : new Date(),
         updated_at : new Date()
       },
       {
-        sensor_id : 2,
-        min_limit:  50,
-        max_limit:  50,
+        name : 'Temperatur',
         created_at : new Date(),
         updated_at : new Date()
       },
       {
-        sensor_id : 3,
-        min_limit:  6,
-        max_limit:  8.5,
+        name : 'pH',
         created_at : new Date(),
         updated_at : new Date()
       },
@@ -28,6 +22,6 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.bulkDelete('limits', null, {});
+    await queryInterface.bulkDelete('sensors', null, {});
   }
 };

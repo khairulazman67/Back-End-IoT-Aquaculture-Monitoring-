@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const Limits = sequelize.define('Limits', {
+    const Reports = sequelize.define('Reports', {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
@@ -10,11 +10,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        min_limit: {
-            type: DataTypes.DOUBLE,
-            allowNull: false
-        },
-        max_limit: {
+        value: {
             type: DataTypes.DOUBLE,
             allowNull: false
         },
@@ -29,8 +25,8 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         }
     }, {
-        tableName: 'limits',
+        tableName: 'reports',
         timestamps: true
     });
-    return Limits;
+    return Reports;
 }

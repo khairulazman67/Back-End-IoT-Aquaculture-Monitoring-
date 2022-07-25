@@ -2,22 +2,18 @@
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('limits', {
+    await queryInterface.createTable('reports', {
       id: {
         type : Sequelize.INTEGER,
         autoIncrement : true,
         primaryKey : true,
         allowNull : false,
       },
-      sensor_name:{
-        type : Sequelize.STRING,
-        allowNull : false
+      sensor_id:{
+        type : Sequelize.INTEGER,
+        allowNull:false
       },
-      min_limit:{
-        type : Sequelize.DOUBLE,
-        allowNull : false
-      },
-      max_limit:{
+      value:{
         type : Sequelize.DOUBLE,
         allowNull : false
       },
@@ -30,9 +26,18 @@ module.exports = {
         allowNull : false
       }
     });
+    await queryInterface.addConstraint('reports',{
+      type : 'foreign key',
+      name : 'REPORTS_SENSOR_ID',
+      fields : ['sensor_id'],
+      references : {
+        table:'sensors',
+        field:'id'
+      }
+    })
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('limits');
+    await queryInterface.dropTable('reports');
   }
 };

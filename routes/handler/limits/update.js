@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const {
-    Limits
+    Limits,
+    Sensors
 } = require('../../../models');
 const Validator = require('fastest-validator');
 const v = new Validator();
@@ -8,11 +9,9 @@ const v = new Validator();
 module.exports = async (req, res) => {
 
     const schema = {
-        sensor_name: 'string|empty:false|optional',
         min_limit: 'string|empty:false|optional',
         max_limit: 'string|empty:false|optional',
     };
-    
 
     const validate = v.validate(req.body, schema);
     if (validate.length) {
@@ -32,22 +31,27 @@ module.exports = async (req, res) => {
         });
     }
     const {
-        sensor_name,
+        sensor_id,
         min_limit,
         max_limit
     } = req.body;
 
     await limits.update({
-        sensor_name,
+        sensor_id,
         min_limit,
         max_limit
     });
 
     const data = await Limits.findByPk(id);
+    const sensor = await Sensors.findByPk(id);
+    // const sensor = await Sensors.findOne({
+    //     where: { id: 1 }
+    // });
     return res.json({
         status: 'success',
         data: {
-            data
+            data,
+            sensor
         }
     });
 }

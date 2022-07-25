@@ -17,7 +17,6 @@ module.exports = async(req, res)=>{
             message: validate
         });
     }
-    
     const sensor = await Sensors.findOne({
         where: {
             id: req.body.sensor_id

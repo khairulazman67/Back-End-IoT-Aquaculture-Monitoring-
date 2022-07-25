@@ -18,7 +18,7 @@ const refreshTokensRouter = require('./routes/refreshTokens');
 const limitsRouter = require('./routes/limits');
 const feedingTimesRoutes = require('./routes/feedingTimes');
 const reportsRouter = require('./routes/reports');
-const messageRouter = require('./routes/sendMessage');
+// const messageRouter = require('./routes/sendMessage');
 
 const cors = require('cors')
 //middleware check token
@@ -40,7 +40,7 @@ app.use('/refresh_tokens', refreshTokensRouter);
 app.use('/limits', limitsRouter );
 app.use('/feeding_times',feedingTimesRoutes);
 app.use('/reports',reportsRouter);
-app.use('/send-message',messageRouter);
+// app.use('/send-message',messageRouter);
 
 app.use(fileUpload({
     debug: false

@@ -1,6 +1,7 @@
 const create = require('./create');
-const getReport = require('./getReport');
+const report = require('./getReport');
+
 module.exports = {
     create,
-    getReport
+    report
 }

@@ -42,45 +42,42 @@ if (program.protocol && PROTOCOLS.indexOf(program.protocol) === -1) {
     OPTIONS['ca'] = fs.readFileSync('./broker.emqx.io-ca.crt')
 } else {}
 
-// const topic = '/6720'
+const topic = '/6720'
 
 const client = mqtt.connect(connectUrl, OPTIONS)
 
-function pubData(topic){
-    const axios = require('axios');
-    client.on('connect', async () => {
+const axios = require('axios');
+
+client.on('connect', async () => {
     console.log(`${program.protocol}: Connected`)
-    function pub(param,topic){
-            client.publish(topic, param, { qos: 0, retain: false }, (error) => {
-                if (error) {
-                    console.error(error)
-                }
-            })
-        }
-        function getData(){
-            axios.get('http://localhost:3000/feeding_times/')
-            .then(response => {
-                var pH_min_limits = response.data.data[0]? response.data.data[0].time: 0
-                pub(pH_min_limits.toString(),'/6720')
-            })
-            .catch(error => {
-                console.log(error);
-            });
-        }
-        getData()
-    })
+    function pub(param){
+        client.publish(topic, param, { qos: 0, retain: false }, (error) => {
+            if (error) {
+                console.error(error)
+            }
+        })
+    }
+    function getData(){
+        axios.get('http://localhost:3000/limits/')
+        .then(response => {
+            var pH_min_limits = response.data.data[0]? response.data.data[0].min_limit: 0
+            pub(pH_min_limits.toString())
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    }
+    getData()
+})
 
-    client.on('reconnect', (error) => {
-        console.log(`Reconnecting(${program.protocol}):`, error)
-    })
+client.on('reconnect', (error) => {
+    console.log(`Reconnecting(${program.protocol}):`, error)
+})
 
-    client.on('error', (error) => {
-        console.log(`Cannot connect(${program.protocol}):`, error)
-    })
+client.on('error', (error) => {
+    console.log(`Cannot connect(${program.protocol}):`, error)
+})
 
-    client.on('message', (topic, payload) => {
-        console.log('Received Message:', topic, payload.toString())
-    })
-}
-
-pubData('/6720/')
+client.on('message', (topic, payload) => {
+    console.log('Received Message:', topic, payload.toString())
+})

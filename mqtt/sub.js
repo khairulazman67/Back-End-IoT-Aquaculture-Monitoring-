@@ -67,6 +67,10 @@ function subData(topic){
       let nilai = 1.4
       let tinggi = 7.908684
 
+      let nilaidata = []
+      if (topic === '/6720/sp'){
+        
+      }
       let persen = (nilai*100)/tinggi
       console.log('ini persen',persen)
 

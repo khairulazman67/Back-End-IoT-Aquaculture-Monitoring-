@@ -11,8 +11,6 @@ const index  = {
                 sensor_id :id
             }
         });
-
-
         if(!report){
             return res.status(404).json({
                 status:'error',

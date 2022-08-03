@@ -3,6 +3,8 @@ const fs = require('fs')
 const { Command } = require('commander')
 const axios = require('axios');
 // const report
+
+const BACKEND_SERVICE_URL = "http://localhost:3000"
 const program = new Command()
 program
   .option('-p, --protocol <type>', 'connect protocol: mqtt, mqtts, ws, wss. default is mqtt', 'mqtt')
@@ -43,14 +45,26 @@ if (program.protocol && PROTOCOLS.indexOf(program.protocol) === -1) {
   OPTIONS['ca'] = fs.readFileSync('./broker.emqx.io-ca.crt')
 } else {}
 
+
+
 function subData(topic){
   const client = mqtt.connect(connectUrl, OPTIONS)
-  client.on('connect', () => {
-      console.log(`${program.protocol}: Connected`)
-      client.subscribe([topic], () => {
-          console.log(`${program.protocol}: Subscribe to topic '${topic}'`)
-      })
-  })
+  // var dataLimit = []
+  // client.on('connect', () => {
+  //     console.log(`${program.protocol}: Connected`)
+  //     client.subscribe([topic], () => {
+  //         console.log(`${program.protocol}: Subscribe to topic '${topic}'`)
+  //     })
+  //     axios
+  //     .get(`http://localhost:3000/limits`)
+  //     .then(r => {
+  //         // console.log(r.data)
+  //         dataLimit = r.data
+  //         console.log(dataLimit)
+  //     }).catch(e => {
+  //         console.error(e.response.data.status);
+  //     })
+  // })
 
   client.on('reconnect', (error) => {
       console.log(`Reconnecting(${program.protocol}):`, error)
@@ -60,34 +74,52 @@ function subData(topic){
       console.log(`Cannot connect(${program.protocol}):`, error)
   })
 
+
   // const report = '../routes/reports'
+
 
   client.on('message', (topic, payload) => {
       console.log('Received Message:', topic, payload.toString())
-      let nilai = 1.4
-      let tinggi = 7.908684
-
-      let nilaidata = []
-      if (topic === '/6720/sp'){
-        
-      }
-      let persen = (nilai*100)/tinggi
-      console.log('ini persen',persen)
-
-      // let data = payload.toString()
-      // let data= {
-      //     sensor_id: "1",
-      //     value: payload.toString()
-      // }
       var data = JSON.parse(payload)
       console.log('ini data sub bro',data.msg)
-      // axios
-      // .post(`http://localhost:3000/reports`,data)
-      // .then(r => {
-      //     console.log(r)
-      // }).catch(e => {
-      //     console.error(e.response.data.status);
-      // })
+      let nilaidata = null
+
+      if (topic === '/6720/sp'){
+        let nilai = data.msg
+        let tinggi = 7.908684
+        let persen = (nilai*100)/tinggi
+        console.log('Ini nilai ',persen)
+        nilaidata = {
+          sensor_id: "4",
+          value: persen.toString(),
+          pool : data.pool.toString()
+        }
+      }else if (topic === '/6720/TURBIDITY'){
+        nilaidata = {
+          sensor_id: "1",
+          value: data.msg.toString(),
+          pool : data.pool.toString()
+        }
+      }else if (topic === '/6720/TEMPERATUR'){
+        nilaidata = {
+          sensor_id: "2",
+          value: data.msg.toString(),
+          pool : data.pool.toString()
+        }
+      }else if (topic === '/6720/PH'){
+        nilaidata = {
+          sensor_id: "3",
+          value: data.msg.toString(),
+          pool : data.pool.toString()
+        }
+      }
+      axios
+      .post(`http://localhost:3000/reports`,nilaidata)
+      .then(r => {
+          console.log(r)
+      }).catch(e => {
+          console.error(e.response.data.status);
+      })
 
       // function getData(){
       //     axios.get('http://localhost:3000/reports')
@@ -101,3 +133,6 @@ function subData(topic){
   })
 }
 subData('/6720/sp')
+subData('/6720/TEMPERATUR')
+subData('/6720/TURBIDITY')
+subData('/6720/PH')

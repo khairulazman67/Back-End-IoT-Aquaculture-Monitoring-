@@ -10,6 +10,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             allowNull: false
         },
+        pool:{
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
         value: {
             type: DataTypes.DOUBLE,
             allowNull: false

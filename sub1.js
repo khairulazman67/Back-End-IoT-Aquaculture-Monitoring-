@@ -76,13 +76,13 @@ client.on('message', (topic, payload) => {
     }
 
     console.log('ini data bro',payload.toString())
-    axios
-    .post(`http://localhost:3000/reports`,data)
-    .then(r => {
-        console.log(r)
-    }).catch(e => {
-        console.error(e.response.data.status);
-    })
+    // axios
+    // .post(`http://localhost:3000/reports`,data)
+    // .then(r => {
+    //     console.log(r)
+    // }).catch(e => {
+    //     console.error(e.response.data.status);
+    // })
     // function getData(){
     //     axios.get('http://localhost:3000/reports')
     //     .then(response => {

@@ -17,6 +17,10 @@ module.exports = {
         type : Sequelize.DOUBLE,
         allowNull : false
       },
+      pool:{
+        type :Sequelize.INTEGER,
+        allowNull : false
+      },
       created_at:{
         type : Sequelize.DATE,
         allowNull : false

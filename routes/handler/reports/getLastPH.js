@@ -4,9 +4,11 @@ module.exports = async(req, res)=>{
     const pool_id = req.params.pool_id;
     const feed = await Reports.findOne({
         where: {
-            sensor_id: 4,
+            sensor_id: 3,
             pool : pool_id
-        },order: [ [ 'created_at', 'DESC' ]],
+        },order: [
+        ['created_at', 'DESC']
+        ],
     }
     );
     if(!feed){

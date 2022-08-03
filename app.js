@@ -1,5 +1,5 @@
 require('dotenv').config();
-require('./mqtt/pub');
+// require('./mqtt/pub');
 require('./mqtt/sub');
 
 const port = process.env.PORT || 8000;
@@ -82,7 +82,7 @@ app.get('/sad', (req, res) => {
 
 const client = new Client({
     restartOnAuthFail: true,
-    puppeteer: {
+    puppeteer:{
         headless: true,
         args: [
             '--no-sandbox',

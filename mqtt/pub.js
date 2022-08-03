@@ -43,7 +43,6 @@ if (program.protocol && PROTOCOLS.indexOf(program.protocol) === -1) {
 } else {}
 
 // const topic = '/6720'
-
 const client = mqtt.connect(connectUrl, OPTIONS)
 
 function pubData(topic){
@@ -82,5 +81,4 @@ function pubData(topic){
         console.log('Received Message:', topic, payload.toString())
     })
 }
-
-pubData('/6720/')
+pubData('/6720/sp')

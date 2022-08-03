@@ -7,6 +7,7 @@ module.exports = async(req, res)=>{
     const schema = {
         sensor_id: 'string|empty:false',
         value: 'string|empty:false',
+        pool: 'string|empty:false',
     }
 
     const validate = v.validate(req.body, schema);
@@ -33,6 +34,7 @@ module.exports = async(req, res)=>{
     const data = {
         sensor_id : req.body.sensor_id,
         value : req.body.value,
+        pool : req.body.pool
     }
     const creaReports = await Reports.create(data);
 

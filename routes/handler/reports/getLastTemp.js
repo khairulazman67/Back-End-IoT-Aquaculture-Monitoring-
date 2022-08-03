@@ -4,7 +4,7 @@ module.exports = async(req, res)=>{
     const pool_id = req.params.pool_id;
     const feed = await Reports.findOne({
         where: {
-            sensor_id: 4,
+            sensor_id: 2,
             pool : pool_id
         },order: [ [ 'created_at', 'DESC' ]],
     }
@@ -12,7 +12,7 @@ module.exports = async(req, res)=>{
     if(!feed){
         return res.status(404).json({
             status : 'error',
-            message : 'Feed Cap not found'
+            message : 'Temp not found'
         });
     }
     return res.json({

@@ -43,7 +43,7 @@ if (program.protocol && PROTOCOLS.indexOf(program.protocol) === -1) {
   OPTIONS['ca'] = fs.readFileSync('./broker.emqx.io-ca.crt')
 } else {}
 
-const topic = '/6720'
+const topic = '/6720/PH'
 
 const client = mqtt.connect(connectUrl, OPTIONS)
 
@@ -52,11 +52,6 @@ client.on('connect', () => {
     client.subscribe([topic], () => {
         console.log(`${program.protocol}: Subscribe to topic '${topic}'`)
     })
-    // client.publish(topic, 'nodejs mqtt test', { qos: 0, retain: false }, (error) => {
-    //     if (error) {
-    //     console.error(error)
-    //     }
-    // })
 })
 
 client.on('reconnect', (error) => {

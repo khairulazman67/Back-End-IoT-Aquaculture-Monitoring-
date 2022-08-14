@@ -135,8 +135,8 @@ async function main(){
   }
 
   await subData('/6720/SP')
-  // await subData('/6720/TEMP')
-  // await subData('/6720/TURB')
-  // await subData('/6720/PH')
+  await subData('/6720/TEMP')
+  await subData('/6720/TURB')
+  await subData('/6720/PH')
 }
 main()

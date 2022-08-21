@@ -4,7 +4,7 @@ const { Command } = require('commander')
 const axios = require('axios');
 // const report
 
-async function main(){
+function main(){
   const BACKEND_SERVICE_URL = "http://localhost:3000"
   const program = new Command()
   program
@@ -62,7 +62,12 @@ async function main(){
       console.log(`Cannot connect(${program.protocol}):`, error)
     })
   
-    function inputdata(data){
+    function inputdata(sensorId, value, pool){
+      data = {
+        sensor_id: sensorId,
+        value: value,
+        pool : pool
+      }
       axios
           .post(`${BACKEND_SERVICE_URL}/reports`,data)
           .then(r => {
@@ -73,70 +78,24 @@ async function main(){
     }
     client.on('message', (topic, payload) => {
       // console.log('Received Message:', topic, payload.to)
-        var data = JSON.parse(payload).msg
-        console.log('ini data sub bro',data)
-        let nilaidata = null
+        var data = JSON.parse(payload)
+        console.log('ini data sub bro',data.turb[0])
 
-        if (topic === '/6720/SP'){
-          let nilai = data
+        let tinggi = 7.908684
+        let persen = (data.pakan*100)/tinggi
+        console.log('Ini nilai ',persen)
+        inputdata("4",persen.toString(),"0")
 
-          let tinggi = 7.908684
-          let persen = (nilai*100)/tinggi
-          console.log('Ini nilai ',persen)
-          nilaidata = {
-            sensor_id: "4",
-            value: persen.toString(),
-            pool : "0"
-          }
-          inputdata(nilaidata)
+        inputdata("1",data.turb[0].toString(),"1")
+        inputdata("1",data.turb[1].toString(),"2")
 
-        }else if (topic === '/6720/TURB'){
-          nilaidata = {
-            sensor_id: "1",
-            value: data[0].toString(),
-            pool : "1"
-          },
-          nilaidata2= {
-            sensor_id: "1",
-            value: data[1].toString(),
-            pool : "2"
-          }
-          inputdata(nilaidata)
-          inputdata(nilaidata2)
-        }else if (topic === '/6720/TEMP'){
-          nilaidata = {
-            sensor_id: "2",
-            value: data[0].toString(),
-            pool : "1"
-          },
-          nilaidata2= {
-            sensor_id: "2",
-            value: data[1].toString(),
-            pool : "2"
-          }
-          inputdata(nilaidata)
-          inputdata(nilaidata2)
+        inputdata("2",data.temp[0].toString(),"1")
+        inputdata("2",data.temp[1].toString(),"2")
 
-        }else if (topic === '/6720/PH'){
-          nilaidata = {
-            sensor_id: "3",
-            value: data[0].toString(),
-            pool : "1"
-          },
-          nilaidata2= {
-            sensor_id: "3",
-            value: data[1].toString(),
-            pool : "2"
-          }
-          inputdata(nilaidata)
-          inputdata(nilaidata2)
-        }
+        inputdata("3",data.ph[0].toString(),"1")
+        inputdata("3",data.ph[1].toString(),"2")
     })
   }
-
-  await subData('/6720/SP')
-  await subData('/6720/TEMP')
-  await subData('/6720/TURB')
-  await subData('/6720/PH')
+  subData('/6720/data')
 }
 main()
